@@ -40,25 +40,31 @@ dicionario = [i for i in resposta.text.splitlines()]
 def errou_tecla_adjacente(palavra_digitada, dicionario, letras_adjacentes):
     palavras_semelhantes = [i for i in dicionario if len(i) == len(palavra_digitada)]
     possiveis = {}
-    contador_alteracoes = 0
-    digitada_original = list(palavra_digitada)
+#   digitada_original = list(palavra_digitada)
+    contador = 0 #
+    print(len(palavras_semelhantes))
 
-    for palavra in palavras_semelhantes: #percorre as palavras semelhantes usando a variavel palavra
-        caracter = 0 
-        digitada = digitada_original #transforma a palavra digitada em lista de caracteres
+    for palavra_semelhante in palavras_semelhantes: #percorre as palavras semelhantes usando a variavel palavra
+        caracter_atual = 0 
+        digitada = list(palavra_digitada)
         contador_alteracoes = 0
+        contador += 1 #
 
-        for letra in digitada: #percorre os caracteres da palavra digitada
-            if letra == palavra[caracter]: 
-                caracter += 1 #compara o caracter atual com o caracter da possivel palavra atual e se for igual pula pro proximo
-            elif palavra[caracter] in letras_adjacentes[letra]:
-                digitada[caracter] = palavra[caracter] #se for diferente mas estiver nas teclas proximas ele troca e pula para o proximo
-                caracter += 1                  
+
+        for letra_digitada in digitada: #percorre os caracteres da palavra digitada
+            if letra_digitada == palavra_semelhante[caracter_atual]: 
+                caracter_atual += 1 #compara o caracter atual com o caracter da possivel palavra atual e se for igual pula pro proximo
+
+            elif palavra_semelhante[caracter_atual] in letras_adjacentes[letra_digitada]:
+                digitada[caracter_atual] = palavra_semelhante[caracter_atual] #se for diferente mas estiver nas teclas proximas ele troca e pula para o proximo
+                caracter_atual += 1                  
                 contador_alteracoes += 1 #conta quantas alteracoes foram feitas
 
-        if "".join(digitada) == palavra: #apos comparar cada caracter ele verifica se formou uma palavra igual transforma em string e add na lista de possiveis
+        if "".join(digitada) == palavra_semelhante: #apos comparar cada caracter ele verifica se formou uma palavra igual transforma em string e add na lista de possiveis
             possiveis["".join(digitada)] = contador_alteracoes
-        
+    
+    print(contador) #
+
     return possiveis
 
 def letra_mais(dicionario, palavra_digitada):
